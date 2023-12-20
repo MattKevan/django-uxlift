@@ -29,11 +29,11 @@
   {% endblock %}
 </head>
 
-<body hx-headers="{'X-CSRFToken': '{{ csrf_token }}'}" hx-boost="true" class="dark:bg-slate-900">
+<body hx-headers="{'X-CSRFToken': '{{ csrf_token }}'}" hx-boost="true" class="dark:bg-slate-900" hx-indicator=".progress" >
   
   {% include '_header.html' %}
 
-  <main id="mainContent">
+  <main id="mainContent" class="container w-full max-w-[85rem] py-10 px-4 sm:px-6 lg:px-8 mx-auto">
     {% block content %}{% endblock %}
   </main>
 

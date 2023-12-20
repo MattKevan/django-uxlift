@@ -17,15 +17,26 @@
       </div>
       <nav :class="{'flex': open, 'hidden': !open}" class="flex-col flex-grow pb-4 md:pb-0 hidden md:flex md:justify-end md:flex-row">
         <div class="flex flex-col gap-y-3 gap-x-0 mt-5 sm:flex-row sm:items-center sm:justify-end sm:gap-y-0 sm:gap-x-6 sm:mt-0 sm:ps-7">
-        {% url 'home' as home_url %}
-        <a  href="{{ home_url }}" 
+        
+        {% url 'topics' as topics_url %}
+        <a  href="{{ topics_url }}" 
+        class="font-medium sm:py-6
+            {% if request.get_full_path == topics_url %}
+                text-blue-600 dark:text-blue-500
+            {% else %}
+            text-gray-500 hover:text-gray-400 dark:text-gray-400 dark:hover:text-gray-500
+            {% endif %}">
+        Topics
+        </a>
+        {% url 'tools' as tools_url %}
+        <a  href="{{ tools_url }}" 
             class="font-medium sm:py-6
-                {% if request.get_full_path == home_url %}
+                {% if request.get_full_path == tools_url %}
                     text-blue-600 dark:text-blue-500
                 {% else %}
                     text-gray-500 hover:text-gray-400 dark:text-gray-400 dark:hover:text-gray-500
                 {% endif %}">
-            Home
+            Tools
         </a>
         {% url 'about' as about_url %}
         <a  href="{{ about_url }}" 
@@ -36,7 +47,7 @@
             text-gray-500 hover:text-gray-400 dark:text-gray-400 dark:hover:text-gray-500
             {% endif %}">
         About
-    </a>
+        </a>
     {% if user.is_authenticated %}
         
     <div x-data="{ dropdownOpen: false }" class="relative  inline-flex">
@@ -60,6 +71,13 @@
             <div class="p-1 mt-1 bg-white border rounded-md shadow-md border-neutral-200/70 text-neutral-700   dark:bg-gray-800 dark:border dark:border-gray-700 dark:divide-gray-700">
                 <div class="px-2 py-1.5 text-sm font-semibold dark:text-white">My Account</div>
                 <div class="h-px my-1 -mx-1 bg-neutral-200 dark:border dark:border-gray-700 dark:divide-gray-700"></div>
+                {% if user.is_superuser %}
+                <a href="{% url 'admin:index' %}" hx-disable class="relative flex cursor-default select-none hover:bg-neutral-100 items-center rounded px-2 py-1.5 text-sm outline-none transition-colors data-[disabled]:pointer-events-none data-[disabled]:opacity-50  dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-gray-300 dark:focus:bg-gray-700">
+            
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4 mr-2"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+                    <span>Admin area</span>
+                </a>
+                {% endif %}
                 <a href="{% url 'account_change_password' %}" class="relative flex cursor-default select-none hover:bg-neutral-100 items-center rounded px-2 py-1.5 text-sm outline-none transition-colors data-[disabled]:pointer-events-none data-[disabled]:opacity-50  dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-gray-300 dark:focus:bg-gray-700">
             
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4 mr-2"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
