@@ -1,8 +1,8 @@
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
-
+from django.utils.text import slugify
 from django.shortcuts import render, redirect, get_object_or_404
-from .forms import SiteForm, PostForm
+from .forms import SiteForm, PostEditForm
 from django.contrib import messages
 from .models import Site, Post, Topic, Tool
 from django.views.generic import ListView
@@ -10,10 +10,12 @@ from django.http import JsonResponse
 from django.views import View
 import requests
 from bs4 import BeautifulSoup
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseNotFound
 from django.db.models import Q, Count
-from urllib.parse import urlparse
-import tagulous
+from urllib.parse import urlparse, urlunparse
+from django.template.loader import render_to_string
+from django.http import HttpResponseRedirect
+from django.urls import reverse
 
 @login_required
 def submit_url(request):
@@ -61,8 +63,39 @@ class PostListView(ListView):
     ordering = ['-date_published']  # '-' indicates descending order
     paginate_by = 50
 
-from django.http import JsonResponse
 
+# views.py
+
+
+
+
+@login_required
+def post_edit(request, post_id):
+    post = get_object_or_404(Post, pk=post_id)
+    if request.method == 'POST':
+        form = PostEditForm(request.POST, instance=post)
+        if form.is_valid():
+            form.save()
+            # Redirect to the post view page
+            return redirect(reverse('post_view', kwargs={'post_title_slug': slugify(post.title)}))
+    else:
+        form = PostEditForm(instance=post)
+
+    return render(request, 'content/post-edit.html', {'post': post, 'form': form})
+
+
+
+def post_view(request, post_title_slug):
+    # Find a post that matches the slugified title
+    for post in Post.objects.all():
+        if slugify(post.title) == post_title_slug:
+            return render(request, 'content/post-view.html', {'post': post})
+
+    # If no post is found, return a 404 response
+    return HttpResponseNotFound('Post not found')
+
+
+from django.http import JsonResponse
 def refresh_feeds_ajax(request):
     total_sites = Site.objects.filter(status='P').count()
     total_posts = 0

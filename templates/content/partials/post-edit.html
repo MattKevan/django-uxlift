@@ -1,0 +1,8 @@
+<!-- edit_form.html -->
+<form method="post" action="{% url 'post_edit' post.id %}" hx-disable>
+    {% load crispy_forms_tags %}
+    {% csrf_token %}
+    {{ form|crispy }}
+    <input type="hidden" name="next" value="{{ next }}">  <!-- Hidden input for 'next' -->
+    <button type="submit">Save</button>
+</form>

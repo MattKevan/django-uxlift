@@ -8,8 +8,12 @@ class SiteForm(forms.ModelForm):
         fields = ['url']  # include the new fields
 
 
-class PostForm(forms.ModelForm):
+class PostEditForm(forms.ModelForm):
     class Meta:
         model = Post
-        fields = ['title', 'link', 'description']
-
+        fields = ['title', 'description', 'summary', 'user', 'date_published', 'site', 'link', 'image_path', 'topics']
+        widgets = {
+            'date_published': forms.DateTimeInput(),
+            'topics': forms.SelectMultiple(),
+            'tags': forms.CheckboxSelectMultiple(),
+        }

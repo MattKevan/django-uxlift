@@ -1,0 +1,11 @@
+{% extends '_base.html' %}
+{% load static %}
+{% block title %}Edit post{% endblock title %}
+
+
+{% block content %}
+{% load crispy_forms_tags %}
+<h1 class="text-2xl font-bold md:text-4xl md:leading-tight dark:text-white">Edit post</h1>
+
+    {% include 'content/partials/post-edit.html' %}
+{% endblock content %}

@@ -14,4 +14,7 @@ urlpatterns = [
     path('topics/<slug:tag_slug>/', topic_page, name='topic_page'),
     path('tools/', views.tools, name='tools'),
     path('tools/<slug:tool_slug>/', views.tool_page, name='tool_page'),
+    path('<int:post_id>/edit/', views.post_edit, name='post_edit'),
+    path('posts/<slug:post_title_slug>/', views.post_view, name='post_view'),
+
 ]
