@@ -4,10 +4,10 @@ class="group flex flex-col p-4 md:p-5bg-white border shadow-md rounded-xl hover:
 >
 <div class="sm:flex sm:justify-between sm:gap-4">
   <div>
-    <h3 class="text-xl font-bold text-blue-700 sm:text-xl mb-4">
+    <h3 class="text-xl font-bold text-blue-700 sm:text-xl mb-4 dark:text-blue-400">
       {{ tool.title }}
     </h3>
-    <p class="max-w-[40ch] text-md text-gray-700">
+    <p class="max-w-[40ch] text-md text-gray-700 dark:text-gray-400">
       {{ tool.description }}
     </p>
     
@@ -23,8 +23,7 @@ class="group flex flex-col p-4 md:p-5bg-white border shadow-md rounded-xl hover:
 </div>
 <div class="mt-4">
   {% for tag in tool.topics.all %}
-  <span class="whitespace-nowrap rounded-full bg-gray-100 px-2.5 py-0.5 text-xs text-gray-500">
-    {{tag}}</span>
+    {% include 'content/components/tag.html' %}
   {% endfor%}
 </div>
 </a>

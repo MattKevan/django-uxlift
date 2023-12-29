@@ -5,9 +5,12 @@
 {% block content %}
 <div class="pb-24 sm:pb-32">
   <div class="mx-auto max-w-7xl">
-      <h1 class="mt-2 text-4xl font-bold text-gray-900 sm:text-6xl">{{ tag.name }}</h1>
+      <h1 class="mt-8 text-4xl font-bold text-gray-900 sm:text-6xl dark:text-white mb-6">{{ tag.name }}</h1>
+      {% if tag.description %}<p class="text-xl text-gray-900 dark:text-white">{{ tag.description }}</p>{% endif %}
   </div>
 </div> 
+
+<h2 class="text-gray-900 font-bold text-3xl dark:text-white">Articles</h2>
 {% if posts%}
 {% for post in posts %}
         <!-- Post -->
