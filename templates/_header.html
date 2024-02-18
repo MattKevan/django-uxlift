@@ -4,10 +4,10 @@
     </div>
 </div>
 
-  <div class="w-full bg-white border-b border-gray-200 text-sm py-3 sm:py-0 dark:bg-slate-950 dark:border-gray-700">
+  <div class="w-full text-sm py-3 sm:py-0">
     <div x-data="{ open: false }" class="flex flex-col max-w-screen-xl px-4 mx-auto md:items-center md:justify-between md:flex-row md:px-6 lg:px-4">
       <div class="p-4 flex flex-row items-center justify-between">
-        <a href="{% url 'home' %}" class="text-lg font-semibold text-gray-900 rounded-lg dark:text-white focus:outline-none focus:shadow-outline">UX Lift</a>
+        <a href="{% url 'home' %}" class="text-lg font-semibold text-gray-900 rounded-lg dark:text-white focus:outline-none focus:shadow-outline font-sans">UX Lift</a>
         <button class="md:hidden rounded-lg focus:outline-none focus:shadow-outline" @click="open = !open">
           <svg fill="currentColor" viewBox="0 0 20 20" class="w-6 h-6">
             <path x-show="!open" fill-rule="evenodd" d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM9 15a1 1 0 011-1h6a1 1 0 110 2h-6a1 1 0 01-1-1z" clip-rule="evenodd"></path>
@@ -16,8 +16,17 @@
         </button>
       </div>
       <nav :class="{'flex': open, 'hidden': !open}" class="flex-col flex-grow pb-4 md:pb-0 hidden md:flex md:justify-end md:flex-row">
-        <div class="flex flex-col gap-y-3 gap-x-0 mt-5 sm:flex-row sm:items-center sm:justify-end sm:gap-y-0 sm:gap-x-6 sm:mt-0 sm:ps-7">
-        
+        <div class="flex flex-col gap-y-3 gap-x-0 mt-5 sm:flex-row sm:items-center sm:justify-end sm:gap-y-0 sm:gap-x-6 sm:mt-0 sm:ps-7 font-sans">
+            {% url 'news' as news_url %}
+            <a  href="{{ news_url }}" 
+            class="font-medium sm:py-6
+                {% if request.get_full_path == news_url %}
+                    text-blue-600 dark:text-blue-500
+                {% else %}
+                text-gray-500 hover:text-gray-400 dark:text-gray-400 dark:hover:text-gray-500
+                {% endif %}">
+            News
+            </a>
         {% url 'topics' as topics_url %}
         <a  href="{{ topics_url }}" 
         class="font-medium sm:py-6

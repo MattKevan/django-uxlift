@@ -10,7 +10,7 @@ load_dotenv()
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 # https://docs.djangoproject.com/en/dev/ref/settings/#std:setting-SECRET_KEY
-SECRET_KEY = os.environ.get('SECRET_KEY')
+SECRET_KEY = os.getenv('SECRET_KEY')
 
 # Cloudinary settings
 CLOUDINARY_CLOUD_NAME = os.getenv('CLOUDINARY_CLOUD_NAME')
@@ -28,7 +28,7 @@ import cloudinary.uploader
 import cloudinary.api
 
 # https://docs.djangoproject.com/en/dev/ref/settings/#debug
-DEBUG = os.environ.get('DEBUG')
+DEBUG = os.getenv('DEBUG')
 
 # https://docs.djangoproject.com/en/dev/ref/settings/#allowed-hosts
 ALLOWED_HOSTS = ["localhost", "0.0.0.0", "127.0.0.1", ".vercel.app", ".now.sh", ".fly.dev"]
@@ -37,29 +37,33 @@ TAILWIND_APP_NAME = 'theme'
 
 # https://docs.djangoproject.com/en/dev/ref/settings/#installed-apps
 INSTALLED_APPS = [
-    "cloudinary",
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
     "django.contrib.sessions",
     "django.contrib.messages",
-    "whitenoise.runserver_nostatic",
     "django.contrib.staticfiles",
     "django.contrib.sites",
+
     # Third-party
+    "cloudinary",
+    "whitenoise.runserver_nostatic",
     "allauth",
     "allauth.account",
     "crispy_forms",
     "crispy_tailwind",
     "debug_toolbar",
     "django_htmx",
-    # Local
-    "accounts",
-    "pages",
-    "content",
     "tailwind",
+    "django_browser_reload",
     "theme",
-    "django_browser_reload"
+
+    # Local
+    "apps.accounts",
+    "apps.pages",
+    "apps.content",
+    "apps.learning",
+
 ]
 
 # https://docs.djangoproject.com/en/dev/ref/settings/#middleware

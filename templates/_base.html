@@ -10,8 +10,8 @@
   {% block meta %}{% endblock %}
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
   <meta name="viewport" content="width=device-width,minimum-scale=1,initial-scale=1">
-  <title>{% block title %}DjangoX{% endblock title %}</title>
-  <meta name="description" content="A framework for launching new Django projects quickly.">
+  <title>{% block title %}UX Lift{% endblock title %}</title>
+  <meta name="description" content="{% block description %}A collection of the best articles, resources, books and tools, covering every aspect of the UX and design process.{% endblock %}">
   <meta name="author" content="">
   <link rel="shortcut icon" type="image/x-icon" href="{% static 'images/favicon.ico' %}">
   <script src="https://unpkg.com/htmx.org@1.6.1"
@@ -33,7 +33,8 @@
   
   {% include '_header.html' %}
 
-  <main id="mainContent" class="container w-full max-w-[85rem] py-10 px-4 sm:px-6 lg:px-8 mx-auto">
+  <main id="mainContent" class="max-w-5xl mx-auto px-6 mt-12">
+      
     {% block content %}{% endblock %}
   </main>
 

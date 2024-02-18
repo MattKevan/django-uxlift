@@ -1,0 +1,27 @@
+
+{% extends '_base.html' %}
+{% load static %}
+
+{% block content %}
+
+<h1 class="page-title">{% block title %}Tools{% endblock title %}</h1>
+<p class="description">{% block description %}Recommended tools and services for your UX and design workflows.{% endblock %}
+</p>
+
+<hr>
+
+<h2 class="section-title">Explore tools</h2>
+  	<div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-6">
+		{% for tag in tags %}
+		{% include 'content/partials/tag-card.html' %}
+		{% endfor %}
+	</div>
+	<hr>
+<h2 class="section-title"> Latest additions</h2>
+
+<div class="grid sm:grid-cols-2 md:grid-cols-3 lg:grids-col-3 xl:grid-cols-3 gap-3 sm:gap-6">
+	{% for tool in tools %}
+		{% include 'content/partials/tool-card.html' %}
+	{% endfor %}
+</div>
+{% endblock %}

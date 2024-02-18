@@ -1,30 +1,20 @@
-<a
-href="{% url 'tool_page' tool_slug=tool.slug %}" hx-get="{% url 'tool_page' tool_slug=tool.slug %}" hx-target="body" hx-push-url="true" hx-indicator=".progress"
-class="group flex flex-col p-4 md:p-5bg-white border shadow-md rounded-xl hover:shadow-lg transition dark:bg-slate-900 dark:border-gray-800 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600"
->
-<div class="sm:flex sm:justify-between sm:gap-4">
-  <div>
-    <h3 class="text-xl font-bold text-blue-700 sm:text-xl mb-4 dark:text-blue-400">
-      {{ tool.title }}
-    </h3>
-    <p class="max-w-[40ch] text-md text-gray-700 dark:text-gray-400">
-      {{ tool.description }}
-    </p>
-    
-  </div>
+<a href="{% url 'tool_page' tool_slug=tool.slug %}" class="hover:no-underline">
+  <div class="group flex flex-col p-4 md:p-5 bg-white border shadow-md rounded-lg hover:shadow-lg transition dark:bg-slate-900 dark:border-gray-800 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600 h-full">
+    <div class="sm:flex sm:justify-between sm:gap-4">
+      <div>
+        <img alt="{{ tool.title }}" src="{{ tool.image.url }}" class="w-[70px] float-right ml-3" />
 
-  <div class="">
-    <img
-      alt="{{ tool.title }}"
-      src="{{ tool.image.url }}"
-      class="h-20 w-20 rounded-lg object-contain"
-    />
+        <h3 class="text-blue-600 text-lg hover:underline mb-3">{{ tool.title }}</h3>
+        <p class="text-gray-500 hover:no-underline">{{ tool.description }}</p>
+    
+      </div>
+
+    </div>
+    <div class="mt-4">
+      {% for tag in tool.topics.all %}
+        {% include 'content/components/tag.html' %}
+      {% endfor%}
+    </div>
   </div>
-</div>
-<div class="mt-4">
-  {% for tag in tool.topics.all %}
-    {% include 'content/components/tag.html' %}
-  {% endfor%}
-</div>
 </a>
   <!-- /tool card -->

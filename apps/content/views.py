@@ -50,20 +50,6 @@ def submit_post(request):
         form = PostForm()
     return render(request, 'content/submit-post.html', {'form': form})
 
-
-def list_sites(request):
-    sites = Site.objects.all()
-    return render(request, 'content/sites.html', {'sites': sites})
-
-
-class PostListView(ListView):
-    model = Post
-    template_name = 'pages/home.html'  # replace with your template
-    context_object_name = 'posts'
-    ordering = ['-date_published']  # '-' indicates descending order
-    paginate_by = 50
-
-
 # views.py
 
 
@@ -116,10 +102,6 @@ def refresh_feeds_ajax(request):
         'errors': errors,
     })
 
-# Topics landing page
-def topics(request):
-    tags = Topic.objects.all()
-    return render(request, 'content/topics.html', {'tags': tags})
 
 
 def topic_page(request, tag_slug):
@@ -150,12 +132,6 @@ def topic_page(request, tag_slug):
         'tools': tools,
         'tag': tag
     })
-
-# Tools landing page
-def tools(request):
-    tools = Tool.objects.all().order_by('-date')[:9]
-    tags = Topic.objects.annotate(num_tools=Count('tool')).filter(num_tools__gt=0)
-    return render(request, 'content/tools.html', {'tags': tags, 'tools':tools})
 
 # Individual tool page
 def tool_page(request, tool_slug):

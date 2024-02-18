@@ -5,8 +5,9 @@ from django.urls import path, include
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("accounts/", include("allauth.urls")),
-    path("", include("pages.urls")),
-    path('', include('content.urls')),  # The URLs from the 'uxlift' app will be included without the 'reader/' prefix
+    path("", include("apps.pages.urls")),
+    path('', include('apps.content.urls')),
+     path('learning/', include('apps.learning.urls')),
     path("__reload__/", include("django_browser_reload.urls")),
 ]
 

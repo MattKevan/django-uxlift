@@ -1,0 +1,55 @@
+{% extends '_base.html' %}
+{% load static %}
+
+{% block title %}Sites{% endblock title %}
+
+{% block content %}
+<!-- Card Blog -->
+
+<div class="max-w-[85rem] px-4 py-10 sm:px-6 lg:px-8 lg:py-14 mx-auto">
+    <h2 class="text-2xl font-bold md:text-4xl md:leading-tight dark:text-white mb-10">Sources</h2>
+  <!-- Grid -->
+  <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        {% for site in sites %}
+      
+    <!-- Card -->
+    <a
+    href="{{ site.url }}" 
+    class="group flex flex-col p-4 md:p-5bg-white border shadow-md rounded-xl hover:shadow-lg transition dark:bg-slate-900 dark:border-gray-800 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600"
+    >
+    <div class="sm:flex sm:justify-between sm:gap-4">
+      <div>
+        <h3 class="text-xl font-bold text-blue-700 sm:text-xl mb-4">
+          {{ site.title }}
+        </h3>
+        <p class="max-w-[40ch] text-md text-gray-700">
+          {{ site.description }}
+        </p>
+        
+      </div>
+      {% if site.site_icon.url %}
+        <img
+          alt="{{ site.title }}"
+          src="{{ site.site_icon.url }}"
+          class="h-16 w-16 rounded-lg object-contain"
+        />
+        {% endif %}
+
+    </div>
+    <div class="mt-4">
+      {% for tag in site.site_type.all %}
+      <span class="whitespace-nowrap rounded-full bg-gray-100 px-2.5 py-0.5 text-xs text-gray-500">
+        {{tag}}</span>
+      {% endfor%}
+    </div>
+    </a>
+      <!-- End Card -->
+    
+    {% empty %}
+          <li>No sites have been submitted yet.</li>
+    {% endfor %}
+  </div>
+  <!-- End Grid -->
+</div>
+
+{% endblock %}

@@ -1,3 +1,28 @@
+@import url('https://fonts.googleapis.com/css2?family=Gentium+Basic:ital,wght@0,400;0,700;1,400&display=swap');
+
+@font-face {
+    font-family: 'Plex Sans';
+    src: url('/static/css/fonts/IBMPlexSans.woff');
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+  }
+  
+  @font-face {
+    font-family: 'Plex Sans';
+    src: url('/static/css/fonts/IBMPlexSans-Bold.woff');
+    font-weight: 700;
+    font-style: normal;
+    font-display: swap;
+  }
+  @font-face {
+    font-family: 'Plex Mono';
+    src: url('/static/css/fonts/IBMPlexMono.woff');
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+  }
+
 /* Progress bar */
 
 .progress {

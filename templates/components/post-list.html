@@ -1,0 +1,20 @@
+<div class="pb-5 border-b border-gray-200 dark:border-gray-700">
+    <h3 class="mb-1"><a href="{{ post.link }}" target="_blank">{{ post.title }}</a></h3>
+    
+    <div class="flex items-center">
+        {% if post.site.site_icon %}
+            <img class="inline-block flex-shrink-0 h-5 w-5" src="{{ post.site.site_icon.url }}" alt="{{ post.site }}">
+        {% endif %}
+        <div class="ms-2">
+            <p class="text-xs font-mono dark:text-gray-400">
+                {% if post.site %} 
+                    {{ post.site }}
+                {%endif%}
+                {% if post.date_published %}
+                    -  {{ post.date_published }}
+                {% endif %}
+            </p>
+        </div>
+    
+    </div>
+</div>

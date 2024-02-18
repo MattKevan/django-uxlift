@@ -1,0 +1,18 @@
+
+{% extends '_base.html' %}
+{% load static %}
+{% block content %}
+
+<h1 class="page-title">{% block title %}UX news{% endblock title %}</h1>
+<p class="description">A feed of UX articles from the best sources on the web. Updated daily.</p>
+
+<hr>
+<div class="grid gap-5">
+{% for post in posts %}
+  {% include "components/post-list.html" %}
+{% endfor %}
+{% include "components/paginator.html" %}
+</div>
+
+
+{% endblock %}
