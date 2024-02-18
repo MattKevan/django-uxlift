@@ -62,7 +62,7 @@
     <div x-data="{ dropdownOpen: false }" class="relative  inline-flex">
 
         <button @click="dropdownOpen=true" class="inline-flex items-center h-12 py-2 pl-3 pr-3 text-sm font-medium transition-colors bg-white border rounded-md text-neutral-700 hover:bg-neutral-100 active:bg-white focus:bg-white focus:outline-none disabled:opacity-50 disabled:pointer-events-none dark:bg-slate-900 dark:border-gray-700 dark:text-white dark:hover:bg-gray-800 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600">
-            {% include 'partials/avatar.html' %}
+            {% include 'components/avatar.html' %}
             <span class="flex flex-col items-start flex-shrink-0 h-full ml-2 leading-none translate-y-px">
                 <span>{{ user.username }}</span>
                 <span class="text-xs font-light text-neutral-400">{{ user.email }}</span>
