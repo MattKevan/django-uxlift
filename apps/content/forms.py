@@ -11,7 +11,7 @@ class SiteForm(forms.ModelForm):
 class PostEditForm(forms.ModelForm):
     class Meta:
         model = Post
-        fields = ['title', 'description', 'summary', 'user', 'date_published', 'site', 'link', 'image_path', 'topics']
+        fields = ['title', 'description', 'summary', 'user', 'date_published', 'site', 'link', 'image_path', 'topics', 'content']
         widgets = {
             'date_published': forms.DateTimeInput(),
             'topics': forms.SelectMultiple(),

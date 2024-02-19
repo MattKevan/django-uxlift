@@ -21,6 +21,7 @@ from django.utils.text import slugify
 from django.contrib.auth import get_user_model
 from urllib.parse import urlparse
 #from .feed_utils import fetch_posts_for_site
+from tinymce import models as tinymce_models
 
 class Topic(models.Model):
     name = models.CharField(max_length=500)
@@ -191,7 +192,7 @@ class Post(models.Model):
     image_path = models.URLField(max_length=1000,null=True, blank=True) # or models.ImageField() depending on how you are handling images
     topics = models.ManyToManyField(Topic)
     tags = models.ManyToManyField(Tag)
-
+    content = tinymce_models.HTMLField(null=True, blank=True)
     def __str__(self):
         return self.title
     

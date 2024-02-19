@@ -55,19 +55,29 @@ def submit_post(request):
 
 
 
+from django.contrib.auth.decorators import login_required
+from django.shortcuts import get_object_or_404, render, redirect
+from .forms import PostEditForm  # Ensure this is correctly imported
+from .models import Post  # Ensure this is correctly imported
+
 @login_required
 def post_edit(request, post_id):
     post = get_object_or_404(Post, pk=post_id)
     if request.method == 'POST':
         form = PostEditForm(request.POST, instance=post)
         if form.is_valid():
-            form.save()
-            # Redirect to the post view page
-            return redirect(reverse('post_view', kwargs={'post_title_slug': slugify(post.title)}))
+            saved_post = form.save(commit=False)  # Save the form but not the m2m data yet
+            form.save_m2m()  # This saves the many-to-many data
+            
+            if request.htmx:
+                # If the post is still valid, return its updated representation
+                return render(request, 'components/post-list.html', {'post': saved_post})
+            else:
+                return redirect('post_view', post_title_slug=saved_post.slug)
     else:
         form = PostEditForm(instance=post)
 
-    return render(request, 'content/post-edit.html', {'post': post, 'form': form})
+    return render(request, 'content/partials/post-edit.html', {'form': form, 'post': post})
 
 
 

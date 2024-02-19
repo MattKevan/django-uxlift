@@ -1,8 +1,8 @@
-<!-- edit_form.html -->
-<form method="post" action="{% url 'post_edit' post.id %}" hx-disable>
+<form method="post" hx-post="/{{ post.id }}/edit/" hx-target='[data-post-id="{{ post.id }}"]' hx-swap="outerHTML">
     {% load crispy_forms_tags %}
     {% csrf_token %}
     {{ form|crispy }}
-    <input type="hidden" name="next" value="{{ next }}">  <!-- Hidden input for 'next' -->
-    <button type="submit">Save</button>
-</form>
+    <input type="hidden" name="post_id" value="{{ post.id }}">
+    <!-- Your form fields here -->
+    <button type="submit" class="button-primary" @click="slideOverOpen=false">Save</button>
+  </form>

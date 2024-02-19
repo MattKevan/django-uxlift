@@ -57,6 +57,7 @@ INSTALLED_APPS = [
     "tailwind",
     "django_browser_reload",
     "theme",
+    "tinymce",
 
     # Local
     "apps.accounts",

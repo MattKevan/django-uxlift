@@ -7,8 +7,9 @@ urlpatterns = [
     path("accounts/", include("allauth.urls")),
     path("", include("apps.pages.urls")),
     path('', include('apps.content.urls')),
-     path('learning/', include('apps.learning.urls')),
+    path('learning/', include('apps.learning.urls')),
     path("__reload__/", include("django_browser_reload.urls")),
+    path('tinymce/', include('tinymce.urls')),
 ]
 
 if settings.DEBUG:
