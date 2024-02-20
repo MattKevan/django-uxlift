@@ -32,6 +32,7 @@ DEBUG = os.getenv('DEBUG')
 
 # https://docs.djangoproject.com/en/dev/ref/settings/#allowed-hosts
 ALLOWED_HOSTS = ["localhost", "0.0.0.0", "127.0.0.1", ".vercel.app", ".now.sh", ".fly.dev"]
+CSRF_TRUSTED_ORIGINS=["https://*.fly.dev"]
 
 TAILWIND_APP_NAME = 'theme'
 
