@@ -1,8 +1,10 @@
 from django.core.management.base import BaseCommand
 from django.db import IntegrityError
-from apps.content.models import Site, Post  # Adjust 'myapp' to your actual app name
+from django.utils import timezone
+from apps.content.models import Site, Post  # Ensure the path matches your project structure
 from newspaper import Article
-import feedparser  # You might need to install feedparser
+import feedparser  # Ensure feedparser is installed
+import dateutil.parser  # You might need to install python-dateutil
 
 class Command(BaseCommand):
     help = 'Fetches RSS items and saves them as Posts'
@@ -17,12 +19,19 @@ class Command(BaseCommand):
                 article.download()
                 article.parse()
 
+                # Convert publish_date to a timezone-aware datetime object
+                publish_date = None
+                if article.publish_date:
+                    publish_date = dateutil.parser.parse(article.publish_date)
+                    if timezone.is_naive(publish_date):
+                        publish_date = timezone.make_aware(publish_date, timezone.get_default_timezone())
+
                 if not Post.objects.filter(link=entry.link).exists():
                     post = Post(
                         title=article.title,
                         description=article.meta_description,
                         content=article.text,
-                        date_published=article.publish_date,
+                        date_published=publish_date,
                         link=entry.link,
                         site=site
                     )
