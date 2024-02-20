@@ -31,8 +31,8 @@ import cloudinary.api
 DEBUG = os.getenv('DEBUG')
 
 # https://docs.djangoproject.com/en/dev/ref/settings/#allowed-hosts
-ALLOWED_HOSTS = ["localhost", "0.0.0.0", "127.0.0.1", ".vercel.app", ".now.sh", ".fly.dev"]
-CSRF_TRUSTED_ORIGINS=["https://*.fly.dev"]
+ALLOWED_HOSTS = ["localhost", "0.0.0.0", "127.0.0.1", ".vercel.app", ".now.sh", ".fly.dev", ".pythonanywhere.com"]
+CSRF_TRUSTED_ORIGINS=["https://*.fly.dev", "https://*.pythonanywhere.com"]
 
 TAILWIND_APP_NAME = 'theme'
 
