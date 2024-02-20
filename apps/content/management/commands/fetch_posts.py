@@ -5,6 +5,7 @@ from apps.content.models import Site, Post  # Ensure the path matches your proje
 from newspaper import Article
 import feedparser  # Ensure feedparser is installed
 import dateutil.parser  # You might need to install python-dateutil
+import datetime  # Import the datetime module
 
 class Command(BaseCommand):
     help = 'Fetches RSS items and saves them as Posts'
@@ -22,7 +23,12 @@ class Command(BaseCommand):
                 # Convert publish_date to a timezone-aware datetime object
                 publish_date = None
                 if article.publish_date:
-                    publish_date = dateutil.parser.parse(article.publish_date)
+                    # Check if article.publish_date is a string before parsing
+                    if isinstance(article.publish_date, datetime.datetime):
+                        publish_date = article.publish_date
+                    else:
+                        publish_date = dateutil.parser.parse(article.publish_date)
+                    # Make the datetime object timezone aware
                     if timezone.is_naive(publish_date):
                         publish_date = timezone.make_aware(publish_date, timezone.get_default_timezone())
 
