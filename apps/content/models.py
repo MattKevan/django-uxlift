@@ -22,6 +22,7 @@ from django.contrib.auth import get_user_model
 from urllib.parse import urlparse
 #from .feed_utils import fetch_posts_for_site
 from tinymce import models as tinymce_models
+from newspaper import Article
 
 class Topic(models.Model):
     name = models.CharField(max_length=500)
@@ -180,6 +181,7 @@ class Site(models.Model):
 
         super().save(*args, **kwargs)
 
+
 class Post(models.Model):
     title = models.CharField(max_length=1000)
     description = models.TextField(blank=True)
@@ -189,10 +191,11 @@ class Post(models.Model):
     date_published = models.DateTimeField(null=True, blank=True)
     site = models.ForeignKey(Site, on_delete=models.CASCADE, null=True, blank=True)
     link = models.URLField(max_length=1000)
-    image_path = models.URLField(max_length=1000,null=True, blank=True) # or models.ImageField() depending on how you are handling images
-    topics = models.ManyToManyField(Topic)
-    tags = models.ManyToManyField(Tag)
+    image_path = models.URLField(max_length=1000, null=True, blank=True)  # or models.ImageField() depending on how you are handling images
+    topics = models.ManyToManyField('Topic', blank=True)  # Assuming 'Topic' is a model for topics
+    tags = models.ManyToManyField('Tag', blank=True)  # Assuming 'Tag' is a model for tags
     content = tinymce_models.HTMLField(null=True, blank=True)
+    
     def __str__(self):
         return self.title
     
@@ -205,43 +208,48 @@ class Post(models.Model):
                 return og_image["content"]
         except Exception as e:
             print(f"Error fetching OG image for post '{self.title}': {e}")
-        return None
-    
-    def fetch_web_data(self):
-        # Only fetch web data if content is blank
-        if not self.description:
-            try:
-                response = requests.get(self.link)
-                soup = BeautifulSoup(response.content, 'html.parser')
-                og_description = soup.find('meta', property='og:description')['content'] if soup.find('meta', property='og:description') else None
-                if og_description:
-                    self.description = og_description
-            except Exception as e:
-                print(f"Error while fetching web data for post '{self.title}': {e}")
+        return None 
+       
+    def fetch_article_data(self):
+        article = Article(self.link)
+        article.download()
+        article.parse()
+        #article.nlp()
 
+        # Update the Post instance fields
+        self.date_published = article.publish_date if article.publish_date else self.date_published
+        self.content = article.text if article.text else self.content
+        #self.summary = article.summary if article.summary else self.summary
+
+        # Get the og:image and save it to image_path
+        if not self.image_path:
+            self.image_path = self.fetch_og_image()
+        # Handle tags, ensuring each keyword has a corresponding Tag object
+        #if article.keywords:
+        #    tag_objects = [Tag.objects.get_or_create(name=keyword)[0] for keyword in article.keywords]
+        #    self.save()  # Save to ensure the Post instance has an ID for M2M relationships
+        #    self.tags.set(tag_objects)  # This replaces existing tags with the new list
+    
     def find_or_create_site(self):
         post_url_parsed = urlparse(self.link)
         post_root_url = f"{post_url_parsed.scheme}://{post_url_parsed.netloc}"
-        site, created = Site.objects.get_or_create(link=post_root_url)
+        site, created = Site.objects.get_or_create(url=post_root_url)
         return site
 
     def save(self, *args, **kwargs):
-        self.fetch_web_data()
-
+        # Fetch article data and handle many-to-many fields before the first save
+        if not self.pk:  # Check if the instance is not yet saved (has no primary key)
+            self.fetch_article_data()
+        
         if not self.user_id:
             # Set default user if not provided
             default_user = get_user_model().objects.get(id=1)
             self.user = default_user
 
-        # Get the og:image and save it to image_path
-        if not self.image_path:
-            self.image_path = self.fetch_og_image()
-
-        # Match or create a Site and link it
         if not self.site:
             self.site = self.find_or_create_site()
 
-        super().save(*args, **kwargs)
+        super().save(*args, **kwargs)  # Call the "real" save() method
 
 class Tool(models.Model):
     title = models.CharField(max_length=600)
