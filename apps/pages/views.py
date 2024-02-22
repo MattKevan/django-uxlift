@@ -40,13 +40,13 @@ def about(request):
 
 # Topics page
 def topics(request):
-    tags = Topic.objects.all()
+    tags = Topic.objects.all().order_by('name')
     return render(request, 'pages/topics.html', {'tags': tags})
 
 # Tools page
 def tools(request):
     tools = Tool.objects.all().order_by('-date')[:9]
-    tags = Topic.objects.annotate(num_tools=Count('tool')).filter(num_tools__gt=0)
+    tags = Topic.objects.annotate(num_tools=Count('tool')).filter(num_tools__gt=0).order_by('name')
     return render(request, 'pages/tools.html', {'tags': tags, 'tools':tools})
 
 # Publications page

@@ -1,4 +1,5 @@
-<div class="pb-5 border-b border-gray-200 dark:border-gray-700" id="post-{{ post.id }}">
+
+<div class="group gap-2 flex flex-col p-4 md:p-5 bg-white border shadow-md rounded-lg hover:shadow-lg transition dark:bg-slate-900 dark:border-gray-800 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600 h-full" id="post-{{ post.id }}">
 
     <h3 class="mb-1"><a href="{{ post.link }}" target="_blank">{{ post.title }}</a></h3>
     
@@ -12,12 +13,13 @@
                     {{ post.site }}
                 {%endif%}
                 {% if post.date_published %}
-                    -  {{ post.date_published | date:"j F Y"}}
+                    -  {{ post.date_published | date:"j F Y" }}
                 {% endif %}
             </p>
         </div>
     
     </div>
+    <p>{{ post.description | truncatewords:20 }}</p>
     {% if user.is_authenticated and perms.content.change_post %}
 
     <div x-data="{ slideOverOpen: false }" @hx:end="if (event.detail.xhr.status === 200) slideOverOpen = false" class="relative z-50 w-auto h-auto">

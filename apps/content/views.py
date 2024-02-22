@@ -47,7 +47,7 @@ def submit_post(request):
 @login_required
 def post_edit(request, post_id):
     post = get_object_or_404(Post, pk=post_id)
-    topics = Topic.objects.all()  # Query all topics to pass to the form
+    topics = Topic.objects.all().order_by('name')  # Query all topics to pass to the form
     tags = Tag.objects.all()  # Query all topics to pass to the form
 
     if request.method == 'POST':
@@ -99,7 +99,7 @@ def topic_page(request, tag_slug):
     tag = get_object_or_404(Topic, slug=tag_slug)
 
     # Filter posts by the tag name or slug
-    posts_list = Post.objects.filter(topics__name=tag.name)
+    posts_list = Post.objects.filter(topics__name=tag.name).order_by('-date_published')
 
     # Set up pagination
     paginator = Paginator(posts_list, 20)  # 20 posts per page
@@ -115,7 +115,7 @@ def topic_page(request, tag_slug):
         posts = paginator.page(paginator.num_pages)
 
     # Filter tools by the tag name or slug
-    tools = Tool.objects.filter(topics__name=tag.name)
+    tools = Tool.objects.filter(topics__name=tag.name).order_by('title')
 
     return render(request, 'content/topic-page.html', {
         'posts': posts,

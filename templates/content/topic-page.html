@@ -12,12 +12,14 @@
 <h2 class="section-title">Articles</h2>
 
 {% if posts%}
-	<div class="grid gap-5">
+	<div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
 		{% for post in posts %}
-	  		{% include "components/post-list.html" %}
+	  		{% include "components/post-card.html" %}
 		{% endfor %}
-		{% include "components/paginator.html" %}
   	</div>
+	<div class="grid place-content-center">
+	  {% include "components/paginator.html" %}
+		<div>
 {% endif %}
 
 {% if tools%}
