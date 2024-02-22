@@ -12,18 +12,8 @@
 <h2 class="section-title">Latest news</h2>
 <div class="grid gap-6">
     {% for post in recent_posts %}
-    <div class="pb-6 border-b border-gray-200">
-        <h3 class="mb-1"><a href="{{ post.link }}">{{ post.title }}</a></h3>
-        <div class="flex items-center">
-          {% if post.site.site_icon %}
-          <img class="inline-block flex-shrink-0 h-6 w-6" src="{{ post.site.site_icon.url }}" alt="{{ post.site }}">
-        {% endif %}
-        <div class="ms-2">
-          <p class="text-sm font-mono">{{ post.site }}{% if post.date_published %} – {{ post.date_published }}{% endif %}</p>
-        </div>
-        
-      </div>
-    </div>
+    
+    {% include 'components/post-list.html' %}
 
     {% endfor %}
     <a href="/news">See more articles »</a>
@@ -37,6 +27,11 @@
     </div>
     <hr>
     <h2 class="section-title">Latest tools</h2>
-
+    <div class="grid sm:grid-cols-2 md:grid-cols-3 lg:grids-col-3 xl:grid-cols-3 gap-3 sm:gap-6">
+      {% for tool in tools %}
+        {% include 'content/partials/tool-card.html' %}
+      {% endfor %}
+    </div>
+    <hr>
 
 {% endblock content %}

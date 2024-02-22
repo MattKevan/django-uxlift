@@ -2,10 +2,11 @@
 
 <div class="max-w-5xl mx-auto px-6 mt-12">
   <div class="border-t  border-gray-200 dark:border-gray-700">
-<iframe src="https://embeds.beehiiv.com/9d493c10-b8b3-41a9-9e8a-1d5767d98d81" data-test-id="beehiiv-embed" width="100%" height="320" frameborder="0" scrolling="no" style="border: none; background-color: transparent;"></iframe>
+    <iframe src="https://embeds.beehiiv.com/9d493c10-b8b3-41a9-9e8a-1d5767d98d81" data-test-id="beehiiv-embed" width="100%" height="320" frameborder="0" scrolling="no" style="border: none;" class="dark:bg-gray-950 bg-white"></iframe>
   </div>
-</div>
-<footer class="w-full mt-6 py-10 px-4 sm:px-6 lg:px-8 mx-auto border-t border-gray-200 dark:border-gray-700">
+</div> <!-- /newsletter block -->
+
+<footer class="w-full mt-6 py-10 mx-auto border-t border-gray-200 dark:border-gray-700">
   <!-- Grid -->
 
   <div class="grid grid-cols-2 gap-6 mb-10 max-w-5xl mx-auto px-6">
@@ -46,30 +47,27 @@
 				</div>
     </div>
     <!-- End Col -->
-
-    <!-- End Col -->
   </div>
   <!-- End Grid -->
 
   <div class="pt-5 mt-5 border-t border-gray-200 dark:border-gray-700">
-    <div class="sm:flex sm:justify-between sm:items-center">
+    <div class="sm:flex sm:justify-between sm:items-center max-w-5xl mx-auto px-6">
       <div class="flex items-center gap-x-3">
 
 
         <div class="space-x-4 text-sm">
+          <img class="inline-flex gap-x-2 w-[30px]" src="{% static 'images/kevan.svg' %}">
+          <p class="inline-flex gap-x-2 font-bold">Made in Manchester by Matt Kevan</p>
           <a class="inline-flex gap-x-2 text-gray-600 hover:text-gray-800 dark:text-gray-400 dark:hover:text-gray-200 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600" href="#">Terms</a>
           <a class="inline-flex gap-x-2 text-gray-600 hover:text-gray-800 dark:text-gray-400 dark:hover:text-gray-200 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600" href="#">Privacy</a>
-          <a class="inline-flex gap-x-2 text-gray-600 hover:text-gray-800 dark:text-gray-400 dark:hover:text-gray-200 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600" href="#">Status</a>
+          <a class="inline-flex gap-x-2 text-gray-600 hover:text-gray-800 dark:text-gray-400 dark:hover:text-gray-200 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600" href="mailto:hello@uxlift.org">Contact</a>
         </div>
       </div>
 
       <div class="flex justify-between items-center">
-        <div class="mt-3 sm:hidden">
-          <a class="flex-none text-xl font-semibold dark:text-white" href="#" aria-label="Brand">Brand</a>
-          <p class="mt-1 text-xs sm:text-sm text-gray-600 dark:text-gray-400">© 2024.</p>
-        </div>
+        
 
-        <!-- Social Brands -->
+        <!-- 
         <div class="space-x-4">
           <a class="inline-block text-gray-500 hover:text-gray-800 dark:hover:text-gray-200" href="#">
             <svg class="flex-shrink-0 w-4 h-4" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
@@ -87,7 +85,7 @@
             </svg>
           </a>
         </div>
-        <!-- End Social Brands -->
+         -->
       </div>
       <!-- End Col -->
     </div>

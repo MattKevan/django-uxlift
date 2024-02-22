@@ -14,6 +14,7 @@ class HomePageView(TemplateView):
         # Add in a query to get the most recent posts
         context['recent_posts'] = Post.objects.filter(date_published__isnull=False).order_by('-date_published')[:10]     
         context['tags'] = Topic.objects.all().order_by('name')  # Similar to your 'tags = Topic.objects.all()' but ordered
+        context['tools'] = Tool.objects.all().order_by('-date')[:9]
 
         return context
     
