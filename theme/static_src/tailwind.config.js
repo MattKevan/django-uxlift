@@ -9,6 +9,7 @@ const defaultTheme = require('tailwindcss/defaultTheme')
 
 module.exports = {
     content: [
+        'node_modules/preline/dist/*.js',
         /**
          * HTML. Paths to Django template files that will contain Tailwind CSS classes.
          */
@@ -57,7 +58,8 @@ module.exports = {
          * for forms. If you don't like it or have own styling for forms,
          * comment the line below to disable '@tailwindcss/forms'.
          */
-        //require('@tailwindcss/forms'),
+        require('preline/plugin'),
+        require('@tailwindcss/forms'),
         require('@tailwindcss/typography'),
         require('@tailwindcss/line-clamp'),
         require('@tailwindcss/aspect-ratio'),

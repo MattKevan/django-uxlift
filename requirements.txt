@@ -23,11 +23,13 @@ cssselect==1.2.0
 defusedxml==0.7.1
 Django==4.2
 django-allauth==0.52.0
+django-appconf==1.0.6
 django-browser-reload==1.7.0
 django-cloudinary-storage==0.3.0
 django-crispy-forms==2.0
 django-debug-toolbar==4.0.0
 django-htmx==1.17.2
+django-select2==8.1.2
 django-tagulous==1.3.3
 django-tailwind==3.5.0
 django-tinymce==3.7.1

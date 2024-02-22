@@ -1,21 +1,13 @@
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from django.contrib import messages
+from django.http import HttpResponseNotFound
 from django.utils.text import slugify
 from django.shortcuts import render, redirect, get_object_or_404
+
 from .forms import SiteForm, PostEditForm
-from django.contrib import messages
-from .models import Site, Post, Topic, Tool
-from django.views.generic import ListView
-from django.http import JsonResponse
-from django.views import View
-import requests
-from bs4 import BeautifulSoup
-from django.http import HttpResponse, HttpResponseNotFound
-from django.db.models import Q, Count
-from urllib.parse import urlparse, urlunparse
-from django.template.loader import render_to_string
-from django.http import HttpResponseRedirect
-from django.urls import reverse
+from .models import Site, Post, Topic, Tool, Tag
+
 
 @login_required
 def submit_url(request):
@@ -50,25 +42,34 @@ def submit_post(request):
         form = PostForm()
     return render(request, 'content/submit-post.html', {'form': form})
 
-# views.py
 
-
-
-
-from django.contrib.auth.decorators import login_required
-from django.shortcuts import get_object_or_404, render, redirect
-from .forms import PostEditForm  # Ensure this is correctly imported
-from .models import Post  # Ensure this is correctly imported
 
 @login_required
 def post_edit(request, post_id):
     post = get_object_or_404(Post, pk=post_id)
+    topics = Topic.objects.all()  # Query all topics to pass to the form
+    tags = Tag.objects.all()  # Query all topics to pass to the form
+
     if request.method == 'POST':
-        form = PostEditForm(request.POST, instance=post)
+        form = PostEditForm(request.POST, request.FILES, instance=post)
         if form.is_valid():
             saved_post = form.save(commit=False)  # Save the form but not the m2m data yet
-            form.save_m2m()  # This saves the many-to-many data
-            
+
+            # Handle the many-to-many topics field manually
+            topics_ids = request.POST.getlist('topics')  # 'topics' should match the name attribute in your select field
+            saved_post.save()  # Save the instance before assigning many-to-many relationships
+
+            if topics_ids:
+                saved_post.topics.clear()  # Remove any existing associations
+                for topic_id in topics_ids:
+                    try:
+                        topic = Topic.objects.get(id=topic_id)
+                        saved_post.topics.add(topic)
+                    except Topic.DoesNotExist:
+                        pass  # Handle invalid topic IDs if necessary
+
+            form.save_m2m()  # Now save the rest of the many-to-many data
+
             if request.htmx:
                 # If the post is still valid, return its updated representation
                 return render(request, 'components/post-list.html', {'post': saved_post})
@@ -77,8 +78,8 @@ def post_edit(request, post_id):
     else:
         form = PostEditForm(instance=post)
 
-    return render(request, 'content/partials/post-edit.html', {'form': form, 'post': post})
-
+    # Pass the topics queryset to the template
+    return render(request, 'content/partials/post-edit.html', {'form': form, 'post': post, 'topics': topics, 'tags':tags})
 
 
 def post_view(request, post_title_slug):
@@ -90,27 +91,6 @@ def post_view(request, post_title_slug):
     # If no post is found, return a 404 response
     return HttpResponseNotFound('Post not found')
 
-
-from django.http import JsonResponse
-def refresh_feeds_ajax(request):
-    total_sites = Site.objects.filter(status='P').count()
-    total_posts = 0
-    errors = []
-
-    for site in Site.objects.filter(status='P'):
-        try:
-            posts_before = Post.objects.filter(site=site).count()
-            site.fetch_posts()
-            posts_after = Post.objects.filter(site=site).count()
-            total_posts += (posts_after - posts_before)
-        except Exception as e:
-            errors.append(str(e))
-
-    return JsonResponse({
-        'total_sites': total_sites,
-        'total_posts': total_posts,
-        'errors': errors,
-    })
 
 
 

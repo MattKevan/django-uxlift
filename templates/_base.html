@@ -23,13 +23,14 @@
     crossorigin="anonymous"></script>
 
   {% tailwind_css %}
+  {{ form.media.css }}
 
   {% block css %}
     <link rel="stylesheet" href="{% static 'css/base.css' %}"  hx-indicator=".progress">
   {% endblock %}
 </head>
 
-<body hx-headers="{'X-CSRFToken': '{{ csrf_token }}'}" hx-boost="true" class="dark:bg-slate-950" hx-indicator=".progress" >
+<body hx-boost="true" class="dark:bg-slate-950" hx-indicator=".progress" >
   
   {% include '_header.html' %}
 
@@ -42,7 +43,13 @@
 
   {% block javascript %}
     <script src="{% static 'js/base.js' %}"></script>
+    <script src="{% static 'js/preline.js' %}"></script>
+    <script src="{% static "tinymce/tinymce.min.js" %}"></script>
+
   {% endblock javascript %}
+
+
+
 </body>
 {% include '_footer.html' %}
 </html>

@@ -4,7 +4,7 @@
 
 @layer components {
     body {
-      @apply subpixel-antialiased dark:text-gray-200 duration-500 font-serif text-gray-500;
+      @apply subpixel-antialiased dark:text-gray-200 duration-500 font-serif text-gray-600;
     }
     
     hr {

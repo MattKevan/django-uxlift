@@ -1,6 +1,5 @@
 from django.contrib import admin
 from .models import Site, Post, Topic, Tool, SiteType, Tag
-import tagulous
 
 @admin.register(Topic)
 class TopicAdmin(admin.ModelAdmin):

@@ -5,7 +5,6 @@ from .models import Post
 
 urlpatterns = [
     path('submit/', views.submit_url, name='submit_url'),
-    path('refresh-feeds/', views.refresh_feeds_ajax, name='refresh-feeds-ajax'),
     path('submit-post/', views.submit_post, name='submit_post'),
     path('topics/<slug:tag_slug>/', views.topic_page, name='topic_page'),
     path('tools/<slug:tool_slug>/', views.tool_page, name='tool_page'),
