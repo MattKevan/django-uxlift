@@ -57,7 +57,6 @@ INSTALLED_APPS = [
     "django_htmx",
     "tailwind",
     "django_browser_reload",
-    'django_select2',
     "theme",
     "tinymce",
 
