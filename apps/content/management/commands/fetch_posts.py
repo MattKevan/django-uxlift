@@ -23,14 +23,15 @@ class Command(BaseCommand):
                 # Convert publish_date to a timezone-aware datetime object
                 publish_date = None
                 if article.publish_date:
-                    # Check if article.publish_date is a string before parsing
                     if isinstance(article.publish_date, datetime.datetime):
                         publish_date = article.publish_date
                     else:
                         publish_date = dateutil.parser.parse(article.publish_date)
-                    # Make the datetime object timezone aware
                     if timezone.is_naive(publish_date):
                         publish_date = timezone.make_aware(publish_date, timezone.get_default_timezone())
+                else:
+                    # Set publish_date to now if not provided
+                    publish_date = timezone.now()
 
                 if not Post.objects.filter(link=entry.link).exists():
                     post = Post(
