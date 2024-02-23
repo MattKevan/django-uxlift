@@ -1,12 +1,7 @@
 from django.contrib import admin
-from .models import Site, Post, Topic, Tool, SiteType, Tag
+from .models import Site, Post, Topic, Tool, SiteType
 
 @admin.register(Topic)
-class TopicAdmin(admin.ModelAdmin):
-    search_fields = ['name']
-    ordering = ['name']
-
-@admin.register(Tag)
 class TopicAdmin(admin.ModelAdmin):
     search_fields = ['name']
     ordering = ['name']
@@ -18,7 +13,7 @@ class TopicAdmin(admin.ModelAdmin):
 
 @admin.register(Post)
 class PostAdmin(admin.ModelAdmin):
-    autocomplete_fields = ['topics', 'tags']
+    autocomplete_fields = ['topics']
 
     list_display = ['title', 'display_topics', 'date_published']
     ordering = ['-date_published']

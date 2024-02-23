@@ -12,7 +12,7 @@ class HomePageView(TemplateView):
         # Call the base implementation first to get a context
         context = super().get_context_data(**kwargs)
         # Add in a query to get the most recent posts
-        context['recent_posts'] = Post.objects.filter(date_published__isnull=False).order_by('-date_published')[:10]     
+        context['recent_posts'] = Post.objects.filter(status__in=['published', '']).order_by('-date_published')[:10]     
         context['tags'] = Topic.objects.all().order_by('name')  # Similar to your 'tags = Topic.objects.all()' but ordered
         context['tools'] = Tool.objects.all().order_by('-date')[:9]
 
@@ -20,7 +20,7 @@ class HomePageView(TemplateView):
     
 # News page
 def news(request):
-    post_list = Post.objects.all().order_by('-date_published')  # Assuming posts have a date_posted field to order by
+    post_list = Post.objects.filter(status__in=['published', '']).order_by('-date_published')  # Assuming posts have a date_posted field to order by
     paginator = Paginator(post_list, 20)  # Show 20 posts per page
 
     page = request.GET.get('page')

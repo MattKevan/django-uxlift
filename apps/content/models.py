@@ -43,28 +43,6 @@ class Topic(models.Model):
     def __str__(self):
         return self.name
     
-class Tag(models.Model):
-    name = models.CharField(max_length=500)
-    slug = models.SlugField(unique=True, blank=True)
-
-    def save(self, *args, **kwargs):
-        if not self.slug:
-            # Generate slug from name
-            self.slug = slugify(self.name)
-
-            # Ensure the slug is unique
-            original_slug = self.slug
-            counter = 1
-            while SiteType.objects.filter(slug=self.slug).exclude(pk=self.pk).exists():
-                self.slug = f"{original_slug}-{counter}"
-                counter += 1
-
-        super().save(*args, **kwargs)
-
-    def __str__(self):
-        return self.name
-    
-    
 
 class SiteType(models.Model):
     name = models.CharField(max_length=500)
@@ -190,7 +168,7 @@ class Post(models.Model):
     link = models.URLField(max_length=1000)
     image_path = models.URLField(max_length=1000, null=True, blank=True)  # or models.ImageField() depending on how you are handling images
     topics = models.ManyToManyField('Topic', blank=True)  # Assuming 'Topic' is a model for topics
-    tags = models.ManyToManyField('Tag', blank=True)  # Assuming 'Tag' is a model for tags
+    tags_list = models.TextField(blank=True, null=True)
     content = tinymce_models.HTMLField(null=True, blank=True, default='published')
     STATUS_CHOICES = [
         ('published', 'Published'),
@@ -229,12 +207,7 @@ class Post(models.Model):
         # Get the og:image and save it to image_path
         if not self.image_path:
             self.image_path = self.fetch_og_image()
-        # Handle tags, ensuring each keyword has a corresponding Tag object
-        #if article.keywords:
-        #    tag_objects = [Tag.objects.get_or_create(name=keyword)[0] for keyword in article.keywords]
-        #    self.save()  # Save to ensure the Post instance has an ID for M2M relationships
-        #    self.tags.set(tag_objects)  # This replaces existing tags with the new list
-    
+                   
     def find_or_create_site(self):
         post_url_parsed = urlparse(self.link)
         post_root_url = f"{post_url_parsed.scheme}://{post_url_parsed.netloc}"

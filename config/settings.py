@@ -61,6 +61,7 @@ INSTALLED_APPS = [
     "tinymce",
 
     # Local
+    "apps.common",
     "apps.accounts",
     "apps.pages",
     "apps.content",

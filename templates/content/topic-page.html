@@ -4,8 +4,8 @@
 {% block title %}Topics{% endblock title %}
 {% block content %}
 
-<h1 class="page-title">{{ tag.name }}</h1>
-{% if tag.description %}<p class="description">{{ tag.description }}</p>{% endif %}
+<h1 class="page-title">{{ topic.name }}</h1>
+{% if topic.description %}<p class="description">{{ topic.description }}</p>{% endif %}
 
 <hr>
 
@@ -14,11 +14,11 @@
 {% if posts%}
 	<div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
 		{% for post in posts %}
-	  		{% include "components/post-card.html" %}
+	  		{% include "common/post-card.html" %}
 		{% endfor %}
   	</div>
 	<div class="grid place-content-center">
-	  {% include "components/paginator.html" %}
+	  {% include "common/paginator.html" %}
 		<div>
 {% endif %}
 

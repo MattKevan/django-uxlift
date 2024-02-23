@@ -1,12 +1,15 @@
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.contrib import messages
-from django.http import HttpResponseNotFound
+from django.http import HttpResponseNotFound, HttpResponse
 from django.utils.text import slugify
 from django.shortcuts import render, redirect, get_object_or_404
+from django.contrib.auth.models import Group
+from django.contrib.admin.views.decorators import staff_member_required
+from django.template.loader import render_to_string
 
 from .forms import SiteForm, PostEditForm
-from .models import Site, Post, Topic, Tool, Tag
+from .models import Site, Post, Topic, Tool
 
 
 @login_required
@@ -42,45 +45,31 @@ def submit_post(request):
         form = PostForm()
     return render(request, 'content/submit-post.html', {'form': form})
 
-
-
 @login_required
 def post_edit(request, post_id):
     post = get_object_or_404(Post, pk=post_id)
-    topics = Topic.objects.all().order_by('name')  # Query all topics to pass to the form
-    tags = Tag.objects.all()  # Query all topics to pass to the form
+    topics = Topic.objects.all().order_by('name')
 
     if request.method == 'POST':
         form = PostEditForm(request.POST, request.FILES, instance=post)
         if form.is_valid():
-            saved_post = form.save(commit=False)  # Save the form but not the m2m data yet
+            saved_post = form.save(commit=False)
+            saved_post.save()
 
-            # Handle the many-to-many topics field manually
-            topics_ids = request.POST.getlist('topics')  # 'topics' should match the name attribute in your select field
-            saved_post.save()  # Save the instance before assigning many-to-many relationships
-
+            topics_ids = request.POST.getlist('topics')  # Get topics from POST data
             if topics_ids:
-                saved_post.topics.clear()  # Remove any existing associations
-                for topic_id in topics_ids:
-                    try:
-                        topic = Topic.objects.get(id=topic_id)
-                        saved_post.topics.add(topic)
-                    except Topic.DoesNotExist:
-                        pass  # Handle invalid topic IDs if necessary
-
-            form.save_m2m()  # Now save the rest of the many-to-many data
-
+                topics = Topic.objects.filter(id__in=topics_ids)
+                saved_post.topics.set(topics)  # Efficiently updates the ManyToMany field
+            
             if request.htmx:
                 # If the post is still valid, return its updated representation
-                return render(request, 'components/post-list.html', {'post': saved_post})
+                return render(request, 'common/post-list.html', {'post': saved_post})
             else:
                 return redirect('post_view', post_title_slug=saved_post.slug)
     else:
         form = PostEditForm(instance=post)
 
-    # Pass the topics queryset to the template
-    return render(request, 'content/partials/post-edit.html', {'form': form, 'post': post, 'topics': topics, 'tags':tags})
-
+    return render(request, 'content/partials/post-edit.html', {'form': form, 'post': post, 'topics': topics})
 
 def post_view(request, post_title_slug):
     # Find a post that matches the slugified title
@@ -92,14 +81,34 @@ def post_view(request, post_title_slug):
     return HttpResponseNotFound('Post not found')
 
 
+def post_view(request, post_title_slug):
+    # Find a post that matches the slugified title
+    for post in Post.objects.all():
+        if slugify(post.title) == post_title_slug:
+            return render(request, 'content/post-view.html', {'post': post})
 
+    # If no post is found, return a 404 response
+    return HttpResponseNotFound('Post not found')
 
-def topic_page(request, tag_slug):
-    # Retrieve the tag object
-    tag = get_object_or_404(Topic, slug=tag_slug)
+@staff_member_required
+def unpublish_post(request, post_id):
+    post = get_object_or_404(Post, id=post_id)
+    
+    post.status = 'unpublished'
+    post.save()
+    # Return an empty response for HTMX to remove the post from the listing
+    html = render_to_string('common/empty.html', {'post': post})
+    return HttpResponse(html)
 
-    # Filter posts by the tag name or slug
-    posts_list = Post.objects.filter(topics__name=tag.name).order_by('-date_published')
+def topic_page(request, topic_slug):
+    # Retrieve the topic object
+    topic = get_object_or_404(Topic, slug=topic_slug)
+
+    # Filter posts by the topic name or slug
+    posts_list = Post.objects.filter(
+        topics__name=topic.name, 
+        status__in=['published', '']  # Include posts that are either explicitly marked as published or have a blank status
+    ).order_by('-date_published')
 
     # Set up pagination
     paginator = Paginator(posts_list, 20)  # 20 posts per page
@@ -114,13 +123,13 @@ def topic_page(request, tag_slug):
         # If page is out of range, deliver last page of results
         posts = paginator.page(paginator.num_pages)
 
-    # Filter tools by the tag name or slug
-    tools = Tool.objects.filter(topics__name=tag.name).order_by('title')
+    # Filter tools by the topic name or slug
+    tools = Tool.objects.filter(topics__name=topic.name).order_by('title')
 
     return render(request, 'content/topic-page.html', {
         'posts': posts,
         'tools': tools,
-        'tag': tag
+        'topic': topic
     })
 
 # Individual tool page
