@@ -3,6 +3,7 @@ from django.views.generic import TemplateView
 from apps.content.models import Post, Topic, Tool, Site
 from django.shortcuts import render
 from django.db.models import Count
+from django.contrib import messages
 
 # Home page
 class HomePageView(TemplateView):

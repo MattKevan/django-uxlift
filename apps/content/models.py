@@ -25,6 +25,9 @@ class Topic(models.Model):
     name = models.CharField(max_length=500)
     slug = models.SlugField(unique=True, blank=True)
     description = models.TextField(null=True, blank=True)
+    
+    class Meta:
+        ordering = ['name']  # Order alphabetically by 'name'
 
     def save(self, *args, **kwargs):
         if not self.slug:

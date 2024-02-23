@@ -10,6 +10,12 @@ class SiteForm(forms.ModelForm):
         model = Site
         fields = ['url']  # include the new fields
 
+class DateInput(forms.DateInput):
+    input_type = 'date'
+    
+    def __init__(self, **kwargs):
+        kwargs['format'] = '%Y-%m-%d'  # Ensure the format is applied
+        super().__init__(**kwargs)
 
 class PostEditForm(forms.ModelForm):
     
@@ -19,11 +25,11 @@ class PostEditForm(forms.ModelForm):
         )
     class Meta:
         model = Post
-        fields = ['title', 'description', 'summary', 'user', 'date_published', 'site', 'link', 'image_path', 'content', 'tags_list', 'topics']
+        fields = ['title', 'topics', 'date_published', 'link', 'image_path', 'site', 'user', 'description',  'content'  ]
         widgets = {
-            'date_published': forms.DateInput(),
             'content': TinyMCE(),
             'tags_list': forms.TextInput(),
+            'date_published': DateInput()
         }
         
 

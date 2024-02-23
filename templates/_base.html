@@ -22,11 +22,11 @@
     integrity="sha384-KLv/Yaw8nAj6OXX6AvVFEt1FNRHrfBHziZ2JzPhgO9OilYrn6JLfCR4dZzaaQCA5"
     crossorigin="anonymous"></script>
 
-  {% tailwind_css %}
-  {{ form.media.css }}
-
+  {{ form.media }}
   {% block css %}
     <link rel="stylesheet" href="{% static 'css/base.css' %}"  hx-indicator=".progress">
+    {% tailwind_css %}
+
   {% endblock %}
 </head>
 
@@ -35,7 +35,8 @@
   {% include '_header.html' %}
 
   <main id="mainContent" class="max-w-5xl mx-auto px-6 mt-12">
-      
+    <div id="success-message" class="hidden"></div>
+
     {% block content %}{% endblock %}
   </main>
 

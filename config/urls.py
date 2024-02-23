@@ -10,6 +10,7 @@ urlpatterns = [
     path('learning/', include('apps.learning.urls')),
     path("__reload__/", include("django_browser_reload.urls")),
     path('tinymce/', include('tinymce.urls')),
+    path("select2/", include("django_select2.urls")),
 ]
 
 if settings.DEBUG:

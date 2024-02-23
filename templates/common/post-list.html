@@ -1,7 +1,6 @@
-{% load user_tags %}
-<div class="pb-5 border-b border-gray-200 dark:border-gray-700" id="post-{{ post.id }}">
+<div class="pb-5 border-b border-gray-200 dark:border-gray-700 flex flex-col gap-2" id="post-{{ post.id }}">
 
-    <h3 class="mb-1"><a href="{{ post.link }}" target="_blank">{{ post.title }}</a></h3>
+    <h3><a href="{{ post.link }}" target="_blank">{{ post.title }}</a></h3>
     
     <div class="flex items-center">
         {% if post.site.site_icon %}
@@ -19,7 +18,12 @@
         </div>
     
     </div>
-    <div class="flex flex-row gap-4 mt-2">
+    <div>
+    {% for tag in post.topics.all %}
+        {% include 'content/components/tag.html' %}
+    {% endfor%}
+    </div>
+    <div class="flex flex-row gap-4">
         {% if user.is_authenticated and perms.content.change_post %}
             <button 
                 hx-get="{% url 'post_edit' post.id %}" 
@@ -28,8 +32,9 @@
                 hx-toggle="modal" 
                 hx-trigger="click" 
                 data-hs-overlay="#post-edit-modal"
+                class="text-xs"
             >
-            Edit post
+            Edit
             </button>
             <form action="{% url 'unpublish_post' post.id %}" method="post" hx-post="{% url 'unpublish_post' post.id %}" hx-target="#post-{{ post.id }}" hx-confirm="Are you sure you want to unpublish this post?">
                 {% csrf_token %}

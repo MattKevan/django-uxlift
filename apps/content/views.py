@@ -48,26 +48,28 @@ def submit_post(request):
 @login_required
 def post_edit(request, post_id):
     post = get_object_or_404(Post, pk=post_id)
-    topics = Topic.objects.all().order_by('name')
-
     if request.method == 'POST':
         form = PostEditForm(request.POST, request.FILES, instance=post)
         if form.is_valid():
             saved_post = form.save(commit=False)
             saved_post.save()
 
-            topics_ids = request.POST.getlist('topics')  # Get topics from POST data
+            topics_ids = request.POST.getlist('topics')  # Correctly retrieves list of topic IDs
             if topics_ids:
                 topics = Topic.objects.filter(id__in=topics_ids)
                 saved_post.topics.set(topics)  # Efficiently updates the ManyToMany field
-            
+
             if request.htmx:
-                # If the post is still valid, return its updated representation
-                return render(request, 'common/post-list.html', {'post': saved_post})
+                response = render(request, 'common/post-list.html', {'post': saved_post})
+                response['HX-Trigger'] = 'postSaved'
+                messages.success(request, f"'{saved_post.title}' saved successfully!")
+                return response
             else:
+                messages.success(request, f"'{saved_post.title}' saved successfully!")
                 return redirect('post_view', post_title_slug=saved_post.slug)
     else:
         form = PostEditForm(instance=post)
+        topics = Topic.objects.all().order_by('name')  # Ensures topics are ordered alphabetically
 
     return render(request, 'content/partials/post-edit.html', {'form': form, 'post': post, 'topics': topics})
 
