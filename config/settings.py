@@ -55,7 +55,6 @@ INSTALLED_APPS = [
     "crispy_tailwind",
     "debug_toolbar",
     "django_htmx",
-    'django_select2',
     "tailwind",
     "django_browser_reload",
     "theme",
