@@ -20,18 +20,18 @@ class Command(BaseCommand):
                 article.download()
                 article.parse()
 
-                # Convert publish_date to a timezone-aware datetime object
+                # Convert publish_date to a date object
                 publish_date = None
                 if article.publish_date:
                     if isinstance(article.publish_date, datetime.datetime):
-                        publish_date = article.publish_date
+                        # Extract only the date part
+                        publish_date = article.publish_date.date()
                     else:
-                        publish_date = dateutil.parser.parse(article.publish_date)
-                    if timezone.is_naive(publish_date):
-                        publish_date = timezone.make_aware(publish_date, timezone.get_default_timezone())
+                        # Parse the string to datetime and then convert to date
+                        publish_date = dateutil.parser.parse(article.publish_date).date()
                 else:
-                    # Set publish_date to now if not provided
-                    publish_date = timezone.now()
+                    # Set publish_date to today's date if not provided
+                    publish_date = datetime.date.today()
 
                 if not Post.objects.filter(link=entry.link).exists():
                     post = Post(

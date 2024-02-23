@@ -3,24 +3,21 @@ from django.contrib.auth.models import Group
 from cloudinary.models import CloudinaryField
 from cloudinary.uploader import upload
 from django.db import models
-import feedparser
 import requests  # Make sure you have this line
 from bs4 import BeautifulSoup
-from dateutil.parser import parse
 from django.contrib.auth.models import User  # Add this line
 from django.utils import timezone
 import os
+from datetime import date
 import requests
 from bs4 import BeautifulSoup
 from django.core.files.base import ContentFile
 from urllib.parse import urljoin
-from django.conf import settings
 from django.db import models
 from django.utils import timezone
 from django.utils.text import slugify
 from django.contrib.auth import get_user_model
 from urllib.parse import urlparse
-#from .feed_utils import fetch_posts_for_site
 from tinymce import models as tinymce_models
 from newspaper import Article
 
@@ -187,17 +184,25 @@ class Post(models.Model):
     description = models.TextField(blank=True)
     summary = models.TextField(blank=True)
     user = models.ForeignKey(settings.AUTH_USER_MODEL, null=True, blank=True, on_delete=models.SET_NULL)
-    date_created = models.DateTimeField(default=timezone.now)
-    date_published = models.DateTimeField(null=True, blank=True)
+    date_created = models.DateField(default=date.today)  # Converted to DateField
+    date_published = models.DateField(null=True, blank=True)
     site = models.ForeignKey(Site, on_delete=models.CASCADE, null=True, blank=True)
     link = models.URLField(max_length=1000)
     image_path = models.URLField(max_length=1000, null=True, blank=True)  # or models.ImageField() depending on how you are handling images
     topics = models.ManyToManyField('Topic', blank=True)  # Assuming 'Topic' is a model for topics
     tags = models.ManyToManyField('Tag', blank=True)  # Assuming 'Tag' is a model for tags
-    content = tinymce_models.HTMLField(null=True, blank=True)
-    
+    content = tinymce_models.HTMLField(null=True, blank=True, default='published')
+    STATUS_CHOICES = [
+        ('published', 'Published'),
+        ('unpublished', 'Unpublished'),
+    ]
+    status = models.CharField(max_length=11, choices=STATUS_CHOICES, default='published', blank=True)
+
     def __str__(self):
         return self.title
+    
+    def is_published(self):
+        return self.status == 'published' or self.status == ''
     
     def fetch_og_image(self):
         try:
