@@ -14,7 +14,10 @@
 {% if posts%}
 	<div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
 		{% for post in posts %}
-	  		{% include "common/post-card.html" %}
+		<div class="group gap-2 flex flex-col p-4 md:p-5 bg-white border shadow-md rounded-lg hover:shadow-lg transition dark:bg-slate-900 dark:border-gray-800 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600 h-full" id="post-{{ post.id }}">
+
+	  		{% include "common/post-list.html" %}
+		</div>
 		{% endfor %}
   	</div>
 	<div class="grid place-content-center">

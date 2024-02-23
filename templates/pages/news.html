@@ -7,11 +7,15 @@
 <p class="description">A feed of UX articles from the best sources on the web. Updated daily.</p>
 
 <hr>
-<div class="grid gap-5">
-{% for post in posts %}
-  {% include "common/post-list.html" %}
-{% endfor %}
-{% include "common/paginator.html" %}
+<div class="max-w-3xl mx-auto">
+  <div class="grid gap-5">
+  {% for post in posts %}
+    <div class="border-b dark:border-gray-800 pb-6">
+      {% include "common/post-list.html" %}
+    </div>
+  {% endfor %}
+  {% include "common/paginator.html" %}
+  </div>
 </div>
 
 

@@ -1,11 +1,12 @@
-<div class="pb-5 border-b border-gray-200 dark:border-gray-700 flex flex-col gap-2" id="post-{{ post.id }}">
+<div class="flex flex-col gap-3" id="post-{{ post.id }}">
 
     <h3><a href="{{ post.link }}" target="_blank">{{ post.title }}</a></h3>
     
     <div class="flex items-center">
         {% if post.site.site_icon %}
-            <img class="inline-block flex-shrink-0 h-5 w-5" src="{{ post.site.site_icon.url }}" alt="{{ post.site }}">
+            <img class="inline-block flex-shrink-0 h-5 w-5 rounded" src="{{ post.site.site_icon.url }}" alt="{{ post.site }}">
         {% endif %}
+
         <div class="ms-2">
             <p class="text-xs font-mono dark:text-gray-400">
                 {% if post.site %} 
@@ -18,11 +19,18 @@
         </div>
     
     </div>
+    {% if post.description %}
+        <p>{{ post.description | truncatewords:20 }}</p>
+    {% endif %}
+
+    {% if post.topics.all %}
     <div>
-    {% for tag in post.topics.all %}
-        {% include 'content/components/tag.html' %}
-    {% endfor%}
+        {% for tag in post.topics.all %}
+            {% include 'content/components/tag.html' %}
+        {% endfor%}
     </div>
+    {% endif %}
+    
     <div class="flex flex-row gap-4">
         {% if user.is_authenticated and perms.content.change_post %}
             <button 

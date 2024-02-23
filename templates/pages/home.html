@@ -9,12 +9,13 @@
 <p class="description">{% block description %} A collection of the best articles, resources, books and tools, covering every aspect of the UX and design process.{% endblock description %}</p>
 
 <hr>
-<h2 class="section-title">Latest news</h2>
-<div class="grid gap-6">
-    {% for post in recent_posts %}
-    
-    {% include 'common/post-list.html' %}
+<div class="grid gap-6 max-w-3xl mx-auto">
+  <h2 class="section-title">Latest news</h2>
 
+    {% for post in recent_posts %}
+      <div class="border-b dark:border-gray-800 pb-6">
+        {% include 'common/post-list.html' %}
+      </div>
     {% endfor %}
     <a href="/news">See more articles »</a>
     </div>
