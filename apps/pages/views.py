@@ -40,6 +40,10 @@ def news(request):
 def about(request):
     return render(request, 'pages/about.html')
 
+# Privacy page
+def privacy(request):
+    return render(request, 'pages/privacy.html')
+
 # Topics page
 def topics(request):
     tags = Topic.objects.all().order_by('name')

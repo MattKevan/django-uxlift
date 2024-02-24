@@ -9,7 +9,7 @@
 
 <hr>
 
-<h2 class="section-title">Articles</h2>
+<h2 id="posts" class="section-title">Articles</h2>
 
 {% if posts%}
 	<div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
@@ -27,7 +27,7 @@
 
 {% if tools%}
 	<hr>
-	<h2 class="section-title">Tools</h2>
+	<h2 id="tools" class="section-title">Tools</h2>
 	<div class="grid sm:grid-cols-2 md:grid-cols-3 lg:grids-col-3 xl:grid-cols-3 gap-3 sm:gap-6">
 		{% for tool in tools %}
 			{% include 'content/partials/tool-card.html' %}

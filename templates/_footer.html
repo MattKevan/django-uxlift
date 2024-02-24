@@ -9,30 +9,31 @@
 <footer class="w-full mt-6 py-10 mx-auto border-t border-gray-200 dark:border-gray-700">
   <!-- Grid -->
 
-  <div class="grid grid-cols-2 gap-6 mb-10 max-w-5xl mx-auto px-6">
+  <div class="grid grid-cols-2 sm:grid-cols-4 gap-6 mb-10 max-w-5xl mx-auto px-6">
 
     <div>
         <h4 class="font-semibold">Popular tools</h4>
         
         <div class="mt-3 grid space-y-1 text-sm mb-6">
-          <a href="/tools/design-to-code/">Design-to-code</a>
-          <a href="/tools/design-systems/">Design systems</a>
-          <a href="/tools/prototyping/">Prototyping</a>
-          <a href="/tools/collaboration/">Collaboration</a>
+          <a href="/topics/design-to-code/#tools">Design-to-code</a>
+          <a href="/topics/design-systems/#tools">Design systems</a>
+          <a href="/topics/prototyping/#tools">Prototyping</a>
+          <a href="/topics/collaboration/#tools">Collaboration</a>
         </div>
-        
+      </div>
+      <div>
         <h4 class="font-semibold">Popular topics</h4>
 
         <div class="mt-3 grid space-y-1 text-sm">
           <a href="/topics/accessibility/">Accessibility</a>
           <a href="/topics/design-ethics/">Design ethics</a>
           <a href="/topics/ux-leadership/">UX leadership</a>
-          <a href="/topics/topics/ux-writing/">UX writing</a>
+          <a href="/topics/wireframeing/">Wireframeing</a>
 				</div>
     </div>
     <!-- End Col -->
 
-    <div>
+    <div class="col-span-2">
       <h4 class="font-semibold">Support UX Lift</h4>
         
         <div class="mt-3 grid space-y-1 text-sm mb-6">
@@ -55,18 +56,17 @@
       <div class="flex items-center gap-x-3">
 
 
-        <div class="space-x-4 text-sm">
-          <img class="inline-flex gap-x-2 w-[30px]" src="{% static 'images/kevan.svg' %}">
-          <p class="inline-flex gap-x-2 font-bold">Made in Manchester by Matt Kevan</p>
-          <a class="inline-flex gap-x-2 text-gray-600 hover:text-gray-800 dark:text-gray-400 dark:hover:text-gray-200 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600" href="#">Terms</a>
-          <a class="inline-flex gap-x-2 text-gray-600 hover:text-gray-800 dark:text-gray-400 dark:hover:text-gray-200 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600" href="#">Privacy</a>
+        <div class="space-x-4 text-sm font-sans">
+          <p class="inline-flex gap-x-2 font-bold">Made in Manchester by<a href="https://www.kevan.tv" target="_blank">Matt Kevan</a></p>
+          <a class="inline-flex gap-x-2 text-gray-600 hover:text-gray-800 dark:text-gray-400 dark:hover:text-gray-200 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600" href="/privacy">Privacy</a>
           <a class="inline-flex gap-x-2 text-gray-600 hover:text-gray-800 dark:text-gray-400 dark:hover:text-gray-200 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600" href="mailto:hello@uxlift.org">Contact</a>
         </div>
       </div>
 
       <div class="flex justify-between items-center">
-        
-
+      <a href="https://www.kevan.tv" target="_blank">
+        <img class="inline-flex gap-x-2 w-[40px]" src="{% static 'images/kevan.svg' %}">
+      </a>
         <!-- 
         <div class="space-x-4">
           <a class="inline-block text-gray-500 hover:text-gray-800 dark:hover:text-gray-200" href="#">

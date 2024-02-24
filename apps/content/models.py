@@ -239,9 +239,17 @@ class Tool(models.Model):
     image = CloudinaryField('image')
     date = models.DateTimeField(default=timezone.now)
     topics = models.ManyToManyField(Topic)
-    body = models.TextField()  # This can be used for the full content of the tool
+    body = tinymce_models.HTMLField(null=True, blank=True, default='published')
     slug = models.SlugField(unique=True, blank=True)
+    STATUS_CHOICES = [
+        ('published', 'Published'),
+        ('unpublished', 'Unpublished'),
+    ]
+    status = models.CharField(max_length=11, choices=STATUS_CHOICES, default='published', blank=True)
 
+    def is_published(self):
+        return self.status == 'published' or self.status == ''
+    
     def save(self, *args, **kwargs):
         if not self.slug:
             self.slug = slugify(self.title)

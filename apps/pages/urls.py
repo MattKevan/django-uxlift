@@ -8,6 +8,7 @@ urlpatterns = [
     path("tools/", views.tools, name="tools"),
     path("news/", views.news, name="news"),
     path("sites/", views.sites, name="sites"),
+    path("privacy/", views.privacy, name="privacy"),
 
 ]
 
