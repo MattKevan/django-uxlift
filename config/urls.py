@@ -8,6 +8,7 @@ urlpatterns = [
     path("", include("apps.pages.urls")),
     path('', include('apps.content.urls')),
     path('learning/', include('apps.learning.urls')),
+    path('learning/', include('apps.search.urls')),
     path("__reload__/", include("django_browser_reload.urls")),
     path('tinymce/', include('tinymce.urls')),
 ]

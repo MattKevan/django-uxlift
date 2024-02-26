@@ -3,7 +3,6 @@ from django.contrib.auth.models import Group
 from cloudinary.models import CloudinaryField
 from cloudinary.uploader import upload
 from django.db import models
-import requests  # Make sure you have this line
 from bs4 import BeautifulSoup
 from django.contrib.auth.models import User  # Add this line
 from django.utils import timezone
@@ -239,7 +238,7 @@ class Tool(models.Model):
     image = CloudinaryField('image')
     date = models.DateTimeField(default=timezone.now)
     topics = models.ManyToManyField(Topic)
-    body = tinymce_models.HTMLField(null=True, blank=True, default='published')
+    body = tinymce_models.HTMLField(null=True, blank=True)
     slug = models.SlugField(unique=True, blank=True)
     STATUS_CHOICES = [
         ('published', 'Published'),

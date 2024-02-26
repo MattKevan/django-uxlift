@@ -1,6 +1,12 @@
 from django.contrib import admin
 from .models import Site, Post, Topic, Tool, SiteType
+from django.contrib.contenttypes.models import ContentType
 
+@admin.register(ContentType)
+class ContentTypeAdmin(admin.ModelAdmin):
+    list_display = ('app_label', 'model')
+    search_fields = ('app_label', 'model')
+    
 @admin.register(Topic)
 class TopicAdmin(admin.ModelAdmin):
     search_fields = ['name']
@@ -25,7 +31,7 @@ class PostAdmin(admin.ModelAdmin):
 @admin.register(Tool)
 class ToolAdmin(admin.ModelAdmin):
     autocomplete_fields = ['topics']
-    search_fields = ['name']
+    search_fields = ['title']
     list_display = ['title', 'display_topics']
 
     def display_topics(self, obj):

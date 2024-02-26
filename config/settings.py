@@ -6,6 +6,8 @@ import cloudinary
 # Load environment variables from .env file
 load_dotenv()
 
+OPENAI_API_KEY = os.getenv('OPENAI_API_KEY')
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -66,6 +68,7 @@ INSTALLED_APPS = [
     "apps.pages",
     "apps.content",
     "apps.learning",
+    "apps.search",
 
 ]
 
@@ -115,7 +118,7 @@ DATABASES = {
         'USER': os.getenv('POSTGRES_USER', 'default_db_user'),
         'PASSWORD': os.getenv('POSTGRES_PASSWORD', 'default_db_password'),
         'HOST': os.getenv('POSTGRES_HOST', 'localhost'),
-        'PORT': os.getenv('POSTGRES_PORT', '5432'),
+        'PORT': os.getenv('POSTGRES_PORT', '5433'),
         'OPTIONS': {
             'sslmode': 'require',
         },
