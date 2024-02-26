@@ -6,7 +6,10 @@ import cloudinary
 # Load environment variables from .env file
 load_dotenv()
 
-OPENAI_API_KEY = os.getenv('OPENAI_API_KEY')
+POSTGRES_HOST = os.getenv('PG_HOST')
+POSTGRES_USER = os.getenv('PG_USER')
+POSTGRES_PASSWORD = os.getenv('PG_PASSWORD')
+POSTGRES_DATABASE = os.getenv('PG_DATABASE')
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -68,7 +71,7 @@ INSTALLED_APPS = [
     "apps.pages",
     "apps.content",
     "apps.learning",
-    "apps.search",
+    "apps.search"
 
 ]
 
@@ -114,14 +117,12 @@ TEMPLATES = [
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': os.getenv('POSTGRES_DATABASE', 'default_db_name'),
-        'USER': os.getenv('POSTGRES_USER', 'default_db_user'),
-        'PASSWORD': os.getenv('POSTGRES_PASSWORD', 'default_db_password'),
-        'HOST': os.getenv('POSTGRES_HOST', 'localhost'),
-        'PORT': os.getenv('POSTGRES_PORT', '5433'),
-        'OPTIONS': {
-            'sslmode': 'require',
-        },
+        'NAME': POSTGRES_DATABASE,
+        'USER': POSTGRES_USER,
+        'PASSWORD': POSTGRES_PASSWORD,
+        'HOST': POSTGRES_HOST,
+        'PORT': '5432',
+        'OPTIONS': {'sslmode': 'require'},
     }
 }
 

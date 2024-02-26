@@ -237,7 +237,7 @@ class Tool(models.Model):
     link = models.URLField()
     image = CloudinaryField('image')
     date = models.DateTimeField(default=timezone.now)
-    topics = models.ManyToManyField(Topic)
+    topics = models.ManyToManyField(Topic,null=True, blank=True)
     body = tinymce_models.HTMLField(null=True, blank=True)
     slug = models.SlugField(unique=True, blank=True)
     STATUS_CHOICES = [

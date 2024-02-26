@@ -32,12 +32,7 @@ class PostAdmin(admin.ModelAdmin):
 class ToolAdmin(admin.ModelAdmin):
     autocomplete_fields = ['topics']
     search_fields = ['title']
-    list_display = ['title', 'display_topics']
-
-    def display_topics(self, obj):
-        return ", ".join([topic.name for topic in obj.topics.all()])
-    display_topics.short_description = 'Topics'
-
+    list_display = ['title']
 
 @admin.register(Site)
 class Sitedmin(admin.ModelAdmin):
