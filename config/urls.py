@@ -7,6 +7,7 @@ urlpatterns = [
     path("accounts/", include("allauth.urls")),
     path("", include("apps.pages.urls")),
     path('', include('apps.content.urls')),
+    path('', include('apps.search.urls')),
     path('learning/', include('apps.learning.urls')),
     path('learning/', include('apps.search.urls')),
     path("__reload__/", include("django_browser_reload.urls")),

@@ -1,0 +1,31 @@
+{% extends "_base.html" %}
+
+{% block content %}
+<h1 class="page-title">{% block title %}UX Lift answers (beta){% endblock title %}</h1>
+<p class="description">{% block description %}Get answers to your UX questions with our AI-powered search.{% endblock %}
+</p>
+<hr>
+<form method="post">
+    {% csrf_token %}
+    <div class="flex flex-row gap-4 max-w-3xl mx-auto mb-12">
+    <input type="text" name="search_query" placeholder="What's your question?" required class="rounded-full">
+    <button type="submit" class="button-primary">Search</button>
+    </div>
+</form>
+
+<div class="gap-4 max-w-3xl mx-auto">
+    {% if search_result %}
+    <div class="bg-white border border-gray-200 shadow-sm rounded-xl dark:bg-slate-900 dark:border-gray-700 dark:shadow-slate-700/[.7] p-6 font-sans">
+        <p>{{ search_result }}</p>
+    </div>
+    {% if source_texts %}
+    <div class="mt-6">
+        <h2 class="mb-4">Further reading</h2>
+    {% for post in source_texts %}
+       {% include 'common/post-list.html' %}
+    {% endfor %}
+    </div>
+    {% endif %}
+</div>
+{% endif %}
+{% endblock %}

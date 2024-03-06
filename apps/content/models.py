@@ -177,7 +177,8 @@ class Post(models.Model):
         ('unpublished', 'Unpublished'),
     ]
     status = models.CharField(max_length=11, choices=STATUS_CHOICES, default='published', blank=True)
-
+    indexed = models.BooleanField(default=False)
+    
     def __str__(self):
         return self.title
     
@@ -215,6 +216,20 @@ class Post(models.Model):
         post_root_url = f"{post_url_parsed.scheme}://{post_url_parsed.netloc}"
         site, created = Site.objects.get_or_create(url=post_root_url)
         return site
+    
+    def get_vectordb_text(self):
+        return self.title + " " + self.content
+
+    def get_vectordb_metadata(self):
+        return {
+            "user": self.user.id,
+            "username": self.user.username,
+            "created_at": {
+                "year": self.date_created.year,
+                "month": self.date_created.month,
+                "day": self.date_created.day,
+            },
+        }
 
     def save(self, *args, **kwargs):
         # Fetch article data and handle many-to-many fields before the first save
@@ -237,7 +252,7 @@ class Tool(models.Model):
     link = models.URLField()
     image = CloudinaryField('image')
     date = models.DateField(default=date.today)
-    topics = models.ManyToManyField(Topic,null=True, blank=True)
+    topics = models.ManyToManyField(Topic, blank=True)
     body = tinymce_models.HTMLField(null=True, blank=True)
     slug = models.SlugField(unique=True, blank=True)
     STATUS_CHOICES = [

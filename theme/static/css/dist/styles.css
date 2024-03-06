@@ -1603,6 +1603,10 @@ select:disabled,
   margin-top: 1.75rem;
 }
 
+.mb-12 {
+  margin-bottom: 3rem;
+}
+
 .block {
   display: block;
 }
@@ -2189,6 +2193,10 @@ select:disabled,
 
 .p-4 {
   padding: 1rem;
+}
+
+.p-6 {
+  padding: 1.5rem;
 }
 
 .px-0 {
