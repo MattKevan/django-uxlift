@@ -1,7 +1,9 @@
 from django.shortcuts import render
-import chromadb
+import os
 from llama_index.core import VectorStoreIndex, StorageContext
 from llama_index.vector_stores.chroma import ChromaVectorStore
+from llama_index.vector_stores.supabase import SupabaseVectorStore
+
 from llama_index.core.query_engine import CitationQueryEngine  # Import the CitationQueryEngine
 
 def search_view(request):
@@ -13,13 +15,13 @@ def search_view(request):
         query = request.POST.get("search_query", "")
         
         # Initialize client
-        db = chromadb.PersistentClient(path="./chroma_db")
-
-        # Get collection
-        chroma_collection = db.get_or_create_collection("uxlift")
-
+        SUPABASE = os.getenv('SUPABASE')
+        
         # Assign chroma as the vector_store to the context
-        vector_store = ChromaVectorStore(chroma_collection=chroma_collection)
+        vector_store = SupabaseVectorStore(
+            postgres_connection_string=(SUPABASE),
+            collection_name="uxlift-vector",
+        )
         storage_context = StorageContext.from_defaults(vector_store=vector_store)
 
         # Load your index from stored vectors

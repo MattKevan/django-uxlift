@@ -5,6 +5,8 @@ import chromadb
 from llama_index.core import StorageContext, VectorStoreIndex, SimpleDirectoryReader, Settings, ServiceContext
 from llama_index.core.node_parser import SentenceSplitter
 from llama_index.vector_stores.chroma import ChromaVectorStore
+from llama_index.vector_stores.supabase import SupabaseVectorStore
+import os
 from llama_index.readers.file import CSVReader
 from llama_index.core.query_engine import CitationQueryEngine
 from llama_index.core.ingestion import IngestionPipeline
@@ -14,7 +16,7 @@ class Command(BaseCommand):
     help = 'Indexes all posts in the database with LlamaIndex'
 
     def handle(self, *args, **options):
-        posts = Post.objects.filter(indexed=False)  # Retrieve all posts
+        posts = Post.objects.all()  # Retrieve all posts
         documents = []
 
         for post in posts:
@@ -36,16 +38,18 @@ class Command(BaseCommand):
             documents.append(document)
             post.indexed = True
             post.save()
-
-        db = chromadb.PersistentClient(path="./chroma_db")
-        chroma_collection = db.get_or_create_collection("uxlift")
+            
+        SUPABASE = os.getenv('SUPABASE')
         
-        vector_store = ChromaVectorStore(chroma_collection=chroma_collection)
+        vector_store = SupabaseVectorStore(
+            postgres_connection_string=(SUPABASE),
+            collection_name="uxlift-vector",
+        )
         storage_context = StorageContext.from_defaults(vector_store=vector_store)
-        
         index = VectorStoreIndex.from_documents(
             documents, storage_context=storage_context
         )
+        
 
         # Print the first document to verify
         for doc in documents[:1]:
